@@ -7,6 +7,7 @@ export default function App() {
 
     const [dice, setDice] = React.useState(allNewDice())
     const [tenzies, setTenzies] = React.useState(false)
+    const [count, setCount] = React.useState(0)
     
     React.useEffect(() => {
         const allHeld = dice.every(die => die.isHeld)
@@ -40,9 +41,11 @@ export default function App() {
                     die :
                     generateNewDie()
             }))
+            setCount(oldCount => oldCount + 1)
         } else {
             setTenzies(false)
             setDice(allNewDice())
+            setCount(0)
         }
     }
     
@@ -66,9 +69,8 @@ export default function App() {
     return (
         <main>
             {tenzies && <Confetti />}
-            <h1 className="title">Tenzies</h1>
-            <p className="instructions">Roll until all dice are the same. 
-            Click each die to freeze it at its current value between rolls.</p>
+            <h1 className="title">{tenzies? "You Won" : "Tenzies"}</h1>
+            <p className="instructions">{tenzies ? `You Won in ${count} rolls` : "Roll until all dice are the same. Click each die to freeze it at its current value between rolls."}</p>
             <div className="dice-container">
                 {diceElements}
             </div>
